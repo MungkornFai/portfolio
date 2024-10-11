@@ -6,9 +6,14 @@ import { DATA } from '@/data/resume';
 import { AvatarFallback } from '@radix-ui/react-avatar';
 import Markdown from 'react-markdown';
 import { Badge } from '@/components/ui/badge';
+import { ProjectCard } from '@/components/project.card';
+import HackathonsCard from '@/components/hackathons.card';
+import Link from 'next/link'
 
 const BLUR_FADE_DELAY = 0.04;
 const NO_EXPERIENCE = true;
+const NO_PROJECTS = false;
+const NO_HACKATHON = true;
 export default function Home() {
   return (
     <main className='flex flex-col min-h-[100dvh] space-y-10'>
@@ -123,20 +128,70 @@ export default function Home() {
               <div className='flex flex-col items-center justify-center space-y-4 text-center'>
                 <div className='space-y-2'>
                   <div className='inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm'>
-                    My Projects
+                    <h1>My Projects</h1>
                   </div>
                   <h2 className='text-3xl font-bold tracking-tighter sm:text-5xl'>
-                    Check out my latest work
+                    Explore My Work
                   </h2>
                   <p className='text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed'>
-                    I&apos;ve worked on a variety of projects, from simple
-                    websites to complex web applications. Here are a few of my
-                    favorites.
+                    I&apos;ve had the opportunity to work on a range of
+                    projects, from sleek, user-friendly websites to robust,
+                    feature-rich web applications. Here are some of my personal
+                    favorites that highlight my skills and creativity in web
+                    development.
                   </p>
                 </div>
               </div>
             </BlurFade>
           </div>
+        </div>
+        {NO_PROJECTS ? (
+          <BlurFade delay={BLUR_FADE_DELAY * 12}>
+            <h1>No projects</h1>
+          </BlurFade>
+        ) : (
+          <div className='grid grid-cols-1 gap-3 md:grid-cols-2 max-w-[800px] mx-auto'>
+            {DATA.projects.map((project, id) => (
+              <BlurFade
+                delay={BLUR_FADE_DELAY * 12 + id * 0.05}
+                key={project.title}
+              >
+                <ProjectCard
+                  href={project.href}
+                  key={project.title}
+                  title={project.title}
+                  description={project.description}
+                  dates={project.dates}
+                  tags={project.technologies}
+                  image={project.image}
+                  video={project.video}
+                  links={project.links}
+                />
+              </BlurFade>
+            ))}
+          </div>
+        )}
+      </section>
+      <section id='contact'>
+        <div className='grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12'>
+          <BlurFade delay={BLUR_FADE_DELAY * 16}>
+            <div className='space-y-3'>
+              <div className='inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm'>
+                Contact
+              </div>
+              <h2 className='text-3xl font-bold tracking-tighter sm:text-5xl'>
+                Get in Touch
+              </h2>
+              <p className='mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed'>
+                Want to chat? Just shoot me a dm{' '}
+                <Link href={'#'} className='text-blue-500 hover:underline'>
+                  with a direct question on facebook
+                </Link>{' '}
+                and I&spos;ll get back to you as soon as I can. Please note, I do not
+                respond to unsolicited messages.
+              </p>
+            </div>
+          </BlurFade>
         </div>
       </section>
     </main>
